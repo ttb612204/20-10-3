@@ -1,0 +1,319 @@
+/* ==========================================================================
+   RESPONSIVE.CSS - TỐI ƯU GIAO DIỆN ĐIỆN THOẠI, TABLET VÀ MỌI KÍCH THƯỚC
+   ========================================================================== */
+
+/* Thanh cuộn tinh tế màu hồng pastel */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(20, 10, 30, 0.4);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 117, 143, 0.6);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 117, 143, 0.9);
+}
+
+/* ==========================================================================
+   TABLET VÀ MÀN HÌNH VỪA (MAX-WIDTH: 900PX)
+   ========================================================================== */
+@media screen and (max-width: 900px) {
+  .card-body-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .card-info-col {
+    text-align: center;
+    align-items: center;
+  }
+
+  .heart-puzzle-container {
+    width: 230px;
+    height: 230px;
+  }
+
+  .greeting-card {
+    padding: 24px 20px;
+    max-height: 88vh;
+    overflow-y: auto;
+  }
+
+  .sphere-stage {
+    width: 320px;
+    height: 320px;
+  }
+}
+
+/* ==========================================================================
+   ĐIỆN THOẠI DI ĐỘNG (MAX-WIDTH: 600PX)
+   ========================================================================== */
+@media screen and (max-width: 600px) {
+  /* Điều khiển âm thanh nhỏ gọn góc trên */
+  .audio-control {
+    top: 14px;
+    right: 14px;
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  /* Nút bấm cảm ứng thoải mái */
+  .btn-romantic {
+    padding: 12px 26px;
+    font-size: 15px;
+    width: 90%;
+    max-width: 280px;
+  }
+
+  /* Phân cảnh 1: Máy quét vân tay trái tim */
+  .scanner-title {
+    font-size: 22px;
+  }
+
+  .scanner-subtitle {
+    font-size: 12.5px;
+  }
+
+  .scanner-heart-container {
+    width: 190px;
+    height: 190px;
+  }
+
+  .scanner-glow-ring {
+    width: 205px;
+    height: 205px;
+  }
+
+  .fingerprint-wrapper {
+    width: 105px;
+    height: 105px;
+  }
+
+  .scanner-status {
+    font-size: 14.5px;
+    padding: 0 10px;
+  }
+
+  .unlock-card {
+    padding: 24px 18px;
+  }
+
+  .unlock-name {
+    font-size: 22px;
+  }
+
+  .unlock-bouquet-wrap {
+    width: 140px;
+    height: 140px;
+  }
+
+  /* Phân cảnh 2 */
+  .bloom-wrapper {
+    width: 280px;
+    height: 280px;
+  }
+
+  .bloom-petal {
+    width: 80px;
+    height: 110px;
+    margin-top: -55px;
+    margin-left: -40px;
+  }
+
+  #scene-2 .bouquet-wrap {
+    width: 220px;
+    height: 220px;
+  }
+
+  #scene-2 .bouquet-subtitle {
+    font-size: 19px;
+    bottom: 50px;
+    padding: 0 15px;
+  }
+
+  #scene-2 .flower-wall-fullscreen {
+    padding-bottom: 50px;
+  }
+
+  /* Phân cảnh 3: Thiệp */
+  .card-header-badge {
+    font-size: 28px;
+    margin-bottom: 12px;
+  }
+
+  .card-title-main {
+    font-size: 28px;
+  }
+
+  .heart-puzzle-container {
+    width: 200px;
+    height: 200px;
+  }
+
+  .calendar-mini {
+    max-width: 280px;
+  }
+
+  .card-wish-text {
+    font-size: 13.5px;
+    line-height: 1.5;
+  }
+
+  /* Phân cảnh 4: Galaxy */
+  .galaxy-guide-badge {
+    font-size: 12.5px;
+    padding: 6px 14px;
+    top: 15px;
+    max-width: 90%;
+  }
+
+  .galaxy-nebula-flower {
+    width: 170px;
+    height: 170px;
+  }
+
+  .galaxy-planet-ring {
+    width: 100px;
+    height: 100px;
+  }
+
+  .planet-sphere {
+    width: 65px;
+    height: 65px;
+  }
+
+  .planet-ring-tilt {
+    width: 150px;
+    height: 150px;
+  }
+
+  .floating-ribbon-msg {
+    font-size: 14px;
+    padding: 4px 10px;
+  }
+
+  /* Phân cảnh 5: Quả cầu ảnh 3D */
+  .sphere-stage {
+    width: 310px;
+    height: 310px;
+  }
+
+  .sphere-backdrop-glow {
+    width: 320px;
+    height: 320px;
+  }
+
+  .sphere-caption {
+    font-size: 22px;
+    padding: 0 15px;
+    margin-top: 12px;
+    margin-bottom: 16px;
+  }
+
+  .sphere-tip {
+    font-size: 12px;
+    top: 15px;
+    padding: 6px 14px;
+    max-width: 90%;
+  }
+
+  /* Phân cảnh 6: Bức tường ảnh */
+  .photo-wall-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    padding: 10px;
+  }
+
+  /* Phân cảnh 7: Phong thư */
+  .envelope-wrapper {
+    width: 270px;
+    height: 190px;
+  }
+
+  .envelope-flap {
+    border-left-width: 135px;
+    border-right-width: 135px;
+    border-top-width: 105px;
+  }
+
+  .envelope-pocket {
+    border-left-width: 135px;
+    border-right-width: 135px;
+    border-bottom-width: 105px;
+    border-top-width: 85px;
+  }
+
+  .envelope-seal {
+    top: 60px;
+    width: 38px;
+    height: 38px;
+    font-size: 17px;
+  }
+
+  .sub-photo-item {
+    width: 70px;
+    height: 70px;
+  }
+
+  /* Phân cảnh 8: Lá thư tình */
+  #scene-8 {
+    padding: 20px 10px;
+  }
+
+  .letter-wrapper {
+    padding: 25px 18px;
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+
+  .letter-title {
+    font-size: 26px;
+  }
+
+  .letter-body {
+    font-size: 14.5px;
+    line-height: 1.7;
+  }
+
+  .letter-sign {
+    font-size: 24px;
+  }
+
+  /* Phân cảnh 9: Trái tim kết thúc */
+  .final-heart-wrap {
+    width: 180px;
+    height: 160px;
+  }
+
+  .final-heart-name {
+    font-size: 34px;
+  }
+
+  .final-message {
+    font-size: 22px;
+    padding: 0 15px;
+  }
+}
+
+/* ==========================================================================
+   HỖ TRỢ GIẢM CHUYỂN ĐỘNG (PREFERS-REDUCED-MOTION)
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .scene {
+    transition: opacity 0.3s ease !important;
+  }
+}

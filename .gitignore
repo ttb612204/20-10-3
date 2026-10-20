@@ -1,0 +1,19 @@
+# ==============================================================================
+# KHÔNG ĐẨY ẢNH CÁ NHÂN VÀ TỆP MEDIA NẶNG LÊN GITHUB
+# ==============================================================================
+# Ảnh cá nhân của người yêu
+assets/images/photo*.jpg
+assets/images/photo*.png
+web-20-10/assets/images/photo*.jpg
+web-20-10/assets/images/photo*.png
+1792500*.jpg
+*.jfif
+
+# Video tham khảo
+*.mp4
+
+# Thư mục phụ và ghi chú
+scratch/
+.gemini/
+make.md
+web-20-10/

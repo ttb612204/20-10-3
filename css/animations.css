@@ -1,0 +1,235 @@
+/* ==========================================================================
+   ANIMATIONS.CSS - HIỆU ỨNG HOẠT ẢNH CHUYỂN ĐỘNG LÃNG MẠN
+   ========================================================================== */
+
+/* Xoay họa tiết mandala trung tâm */
+@keyframes mandalaSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Nhịp thở ánh sáng phát quang */
+@keyframes glowPulse {
+  0%, 100% {
+    transform: scale(0.92);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+
+/* Biểu tượng âm thanh phát nhạc */
+@keyframes audioPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+/* Nhịp đập trái tim tình yêu */
+@keyframes heartBeat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  14% {
+    transform: scale(1.25);
+  }
+  28% {
+    transform: scale(1);
+  }
+  42% {
+    transform: scale(1.18);
+  }
+  70% {
+    transform: scale(1);
+  }
+}
+
+/* Đánh dấu ngày 20/10 phát sáng */
+@keyframes pulseDay {
+  0%, 100% {
+    box-shadow: 0 0 8px #ff4d6d;
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 18px #ff758f, 0 0 25px #ff4d6d;
+    transform: scale(1.12);
+  }
+}
+
+/* Tinh vân hoa xoay chậm trong dải ngân hà */
+@keyframes nebulaSpin {
+  from {
+    transform: translateX(-50%) rotate(0deg);
+  }
+  to {
+    transform: translateX(-50%) rotate(360deg);
+  }
+}
+
+/* Vành đai hành tinh phát sáng lấp lánh */
+@keyframes ringGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(255, 143, 171, 0.8), inset 0 0 12px rgba(255, 117, 143, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 35px rgba(255, 179, 198, 1), inset 0 0 20px rgba(255, 143, 171, 0.9);
+  }
+}
+
+/* Bó hoa lơ lửng nhẹ nhàng */
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(1.5deg);
+  }
+}
+
+/* Trái tim kết thúc đập dịu dàng */
+@keyframes heartThrob {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+/* Hào quang hoa bung nở */
+@keyframes bloomAura {
+  0%, 100% {
+    transform: scale(0.9);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 0.95;
+  }
+}
+
+/* Xoay bề mặt Trái Đất */
+@keyframes earthTextureRotate {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Khí quyển Trái Đất phát quang */
+@keyframes atmosphereGlow {
+  0%, 100% {
+    box-shadow: 0 0 35px rgba(72, 202, 228, 0.6), inset 0 0 25px rgba(0, 119, 182, 0.5);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 60px rgba(144, 224, 239, 0.9), inset 0 0 35px rgba(72, 202, 228, 0.75);
+    transform: scale(1.04);
+  }
+}
+
+/* Hiệu ứng lấp lánh (Shimmer) */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* ==========================================================================
+   HOẠT ẢNH MÁY QUÉT VÂN TAY TRÁI TIM (CONCEPT 2)
+   ========================================================================== */
+@keyframes laserSweep {
+  0% {
+    top: 8%;
+  }
+  100% {
+    top: 88%;
+  }
+}
+
+@keyframes glowPulseFast {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.18);
+    opacity: 1;
+  }
+}
+
+@keyframes heartThrob {
+  0%, 100% {
+    transform: scale(1);
+  }
+  14% {
+    transform: scale(1.12);
+  }
+  28% {
+    transform: scale(1);
+  }
+  42% {
+    transform: scale(1.08);
+  }
+  70% {
+    transform: scale(1);
+  }
+}
+
+@keyframes heartThrobFast {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes rippleOut {
+  0% {
+    width: 30px;
+    height: 30px;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0.5);
+  }
+  100% {
+    width: 260px;
+    height: 260px;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+}
+
+@keyframes ecgFlow {
+  0% {
+    stroke-dashoffset: 200;
+  }
+  100% {
+    stroke-dashoffset: -200;
+  }
+}
+
+@keyframes floatParticle {
+  0% {
+    transform: translateY(0) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-220px) scale(0.4) rotate(45deg);
+    opacity: 0;
+  }
+}

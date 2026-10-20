@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Gửi tvy yêu dấu ❤️ 20/10</title>
+
+  <!-- Google Fonts dự phòng khi có kết nối Internet (hỗ trợ font cục bộ qua CSS) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+
+  <!-- Tập tin định kiểu (CSS thuần, không thư viện ngoài) -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Audio phát nhạc nền lãng mạn -->
+  <audio id="bgm-audio" loop preload="auto" src="assets/audio/music.mp3"></audio>
+
+  <!-- Nút bật / tắt nhạc góc trên -->
+  <button id="audio-toggle-btn" class="audio-control" aria-label="Bật hoặc tắt nhạc">
+    <span class="audio-icon">🎵</span>
+    <span class="audio-text">Bật nhạc</span>
+  </button>
+
+  <!-- Canvas hiển thị vũ trụ sao, bụi sáng và sao băng -->
+  <canvas id="galaxy-canvas"></canvas>
+
+  <!-- Container điều phối các phân cảnh -->
+  <main id="app-container">
+
+    <!-- ===================================================================
+         PHÂN CẢNH 1: MÁY QUÉT DẤU VÂN TAY “MỞ KHÓA TRÁI TIM” (CONCEPT 2)
+         =================================================================== -->
+    <section id="scene-1" class="scene active">
+      <div class="scanner-stage">
+        <!-- Tiêu đề mở đầu ngọt ngào -->
+        <div class="scanner-header">
+          <div class="scanner-badge">🔒 KHÓA TRÁI TIM ANH</div>
+          <h1 class="scanner-title">Xác thực quyền truy cập</h1>
+          <p class="scanner-subtitle">Chỉ dành riêng cho một người duy nhất</p>
+        </div>
+
+        <!-- Khung máy quét hình trái tim vân tay -->
+        <div class="scanner-heart-container" id="scanner-heart-btn" role="button" tabindex="0" aria-label="Chạm và giữ để xác thực dấu vân tay">
+          <!-- Vòng hào quang phát sáng xung quanh -->
+          <div class="scanner-glow-ring"></div>
+          
+          <!-- Vòng tiến trình SVG hình trái tim -->
+          <svg class="scanner-progress-svg" viewBox="0 0 240 240">
+            <!-- Vòng ray nền mờ -->
+            <path class="scanner-track" d="M120,210 C45,140 20,95 20,60 C20,25 50,10 80,10 C100,10 115,22 120,32 C125,22 140,10 160,10 C190,10 220,25 220,60 C220,95 195,140 120,210 Z" />
+            <!-- Vòng tiến trình quét màu hồng neon phát sáng -->
+            <path id="scanner-progress-path" class="scanner-progress" d="M120,210 C45,140 20,95 20,60 C20,25 50,10 80,10 C100,10 115,22 120,32 C125,22 140,10 160,10 C190,10 220,25 220,60 C220,95 195,140 120,210 Z" />
+          </svg>
+
+          <!-- SVG Dấu vân tay lồng trong trái tim -->
+          <div class="fingerprint-wrapper">
+            <svg class="fingerprint-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Các đường rãnh vân tay nghệ thuật hình trái tim -->
+              <path class="fp-line" d="M50 16 C35 16 26 26 26 40 C26 60 41 75 50 84 C59 75 74 60 74 40 C74 26 65 16 50 16 Z" />
+              <path class="fp-line" d="M50 24 C38 24 32 32 32 42 C32 58 43 70 50 77 C57 70 68 58 68 42 C68 32 62 24 50 24 Z" />
+              <path class="fp-line" d="M50 32 C43 32 38 37 38 45 C38 54 45 64 50 69 C55 64 62 54 62 45 C62 37 57 32 50 32 Z" />
+              <path class="fp-line" d="M50 40 C46 40 44 43 44 48 C44 53 47 57 50 61 C53 57 56 53 56 48 C56 43 54 40 50 40 Z" />
+              <circle cx="50" cy="50" r="2.5" class="fp-core" />
+              <!-- Cung vân tay bổ sung chi tiết -->
+              <path class="fp-detail" d="M20 45 C18 53 22 62 27 68" />
+              <path class="fp-detail" d="M80 45 C82 53 78 62 73 68" />
+              <path class="fp-detail" d="M29 25 C34 19 41 17 50 17 C59 17 66 19 71 25" />
+              <path class="fp-detail" d="M37 11 C41 9 45 8 50 8 C55 8 59 9 63 11" />
+            </svg>
+            
+            <!-- Tia laser quét lên xuống (scan beam) -->
+            <div class="scanner-beam" id="scanner-beam"></div>
+          </div>
+
+          <!-- Hiệu ứng sóng nhịp tim gợn sóng khi chạm -->
+          <div class="scanner-ripples" id="scanner-ripples"></div>
+        </div>
+
+        <!-- Chỉ báo nhịp tim ECG và phần trăm tiến độ -->
+        <div class="scanner-metrics">
+          <div class="ecg-line-box">
+            <svg class="ecg-svg" viewBox="0 0 160 30">
+              <path class="ecg-path" d="M0,15 L35,15 L40,8 L45,24 L50,4 L55,26 L60,15 L160,15" />
+            </svg>
+          </div>
+          <div class="scanner-percent" id="scanner-percent">0%</div>
+        </div>
+
+        <!-- Dòng trạng thái thay đổi theo tiến trình quét -->
+        <p class="scanner-status" id="scanner-status">Chạm và giữ để xác thực người yêu của anh...</p>
+        <p class="scanner-subtext">✨ Hãy đặt ngón tay vào trái tim và giữ nguyên nhé ✨</p>
+
+        <!-- Màn mở khóa thành công: Đóa hoa bung nở rực rỡ & lời chúc yêu thương -->
+        <div class="unlock-celebration" id="unlock-celebration">
+          <div class="celebration-particles" id="celebration-particles"></div>
+          <div class="unlock-card">
+            <div class="unlock-icon">💖</div>
+            <div class="unlock-badge">ĐÃ XÁC THỰC THÀNH CÔNG</div>
+            <h2 class="unlock-name">Chào em, tvy yêu dấu!</h2>
+            <p class="unlock-msg">Trái tim anh chỉ có một mã khóa duy nhất, và người nắm giữ chìa khóa chính là em ❤️</p>
+            
+            <!-- Bó hoa rực rỡ chúc mừng 20/10 -->
+            <div class="unlock-bouquet-wrap">
+              <img src="assets/images/bouquet_trans.png" alt="Bó hoa tặng tvy" class="unlock-bouquet-img">
+            </div>
+
+            <button id="scene-1-next-btn" class="btn-romantic unlock-next-btn">
+              <span>Mở thiệp tình yêu của anh ❤️</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         PHÂN CẢNH 3: THIỆP CHÚC MỪNG 20/10 CHO NGƯỜI YÊU
+         =================================================================== -->
+    <section id="scene-3" class="scene">
+      <div class="greeting-card">
+        <!-- Dòng đầu thiệp: Anh ♥ Em -->
+        <div class="card-header-badge">
+          <span>Anh</span>
+          <span class="heart-beat">♥</span>
+          <span>Em</span>
+        </div>
+
+        <div class="card-body-grid">
+          <!-- Cột trái: Trái tim ghép từ những mảnh ảnh puzzle của tvy -->
+          <div class="heart-puzzle-container">
+            <div id="heart-puzzle-grid" class="heart-puzzle-grid"></div>
+          </div>
+
+          <!-- Cột phải: Lời chúc + Lịch tháng 10/2026 -->
+          <div class="card-info-col">
+            <h2 class="card-title-main">Happy Woman's Day</h2>
+            <div class="card-month-title">October 2026</div>
+
+            <div class="calendar-mini">
+              <div id="cal-days-grid" class="cal-grid"></div>
+            </div>
+
+            <p class="card-wish-text">
+              Chúc em yêu của anh luôn xinh đẹp, vui vẻ, được yêu thương thật nhiều và luôn có những ngày ngập tràn hạnh phúc.
+            </p>
+          </div>
+        </div>
+
+        <!-- Họa tiết hoa cúc và chuông nhỏ dọc cạnh dưới thiệp -->
+        <div class="card-bottom-flora">
+          <svg class="flora-item" viewBox="0 0 24 24" fill="#ffffff"><circle cx="12" cy="12" r="3" fill="#ffeaa7"/><circle cx="12" cy="4" r="3"/><circle cx="20" cy="12" r="3"/><circle cx="12" cy="20" r="3"/><circle cx="4" cy="12" r="3"/></svg>
+          <svg class="flora-item" viewBox="0 0 24 24" fill="#ffb3c6"><circle cx="12" cy="12" r="3" fill="#ffeaa7"/><circle cx="12" cy="4" r="3"/><circle cx="20" cy="12" r="3"/><circle cx="12" cy="20" r="3"/><circle cx="4" cy="12" r="3"/></svg>
+          <svg class="flora-item" viewBox="0 0 24 24" fill="#c77dff"><circle cx="12" cy="12" r="3" fill="#ffeaa7"/><circle cx="12" cy="4" r="3"/><circle cx="20" cy="12" r="3"/><circle cx="12" cy="20" r="3"/><circle cx="4" cy="12" r="3"/></svg>
+          <svg class="flora-item" viewBox="0 0 24 24" fill="#ffffff"><circle cx="12" cy="12" r="3" fill="#ffeaa7"/><circle cx="12" cy="4" r="3"/><circle cx="20" cy="12" r="3"/><circle cx="12" cy="20" r="3"/><circle cx="4" cy="12" r="3"/></svg>
+          <svg class="flora-item" viewBox="0 0 24 24" fill="#ffb3c6"><circle cx="12" cy="12" r="3" fill="#ffeaa7"/><circle cx="12" cy="4" r="3"/><circle cx="20" cy="12" r="3"/><circle cx="12" cy="20" r="3"/><circle cx="4" cy="12" r="3"/></svg>
+        </div>
+
+        <button id="scene-3-btn" class="btn-romantic card-next-btn">
+          <span>Khám phá dải ngân hà kỷ niệm ✨</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         PHÂN CẢNH 4: VŨ TRỤ TÌNH YÊU (DI CHUYỂN ĐƯỢC ĐỂ XEM)
+         =================================================================== -->
+    <section id="scene-4" class="scene">
+      <div class="galaxy-guide-badge">🌌 Kéo hoặc vuốt để khám phá dải ngân hà kỷ niệm ✨</div>
+
+      <!-- Thế giới 3D ngân hà có thể di chuyển / xoay tự do -->
+      <div id="galaxy-world" class="galaxy-world">
+        <!-- Cụm tinh vân hoa xoắn phía trên -->
+        <svg class="galaxy-nebula-flower" viewBox="0 0 100 100" fill="none">
+          <circle cx="50" cy="50" r="40" stroke="rgba(255, 143, 171, 0.4)" stroke-dasharray="2 3" />
+          <ellipse cx="50" cy="50" rx="35" ry="12" stroke="rgba(199, 125, 255, 0.8)" transform="rotate(30 50 50)" />
+          <ellipse cx="50" cy="50" rx="35" ry="12" stroke="rgba(255, 117, 143, 0.8)" transform="rotate(90 50 50)" />
+          <ellipse cx="50" cy="50" rx="35" ry="12" stroke="rgba(255, 215, 235, 0.8)" transform="rotate(150 50 50)" />
+          <circle cx="50" cy="50" r="7" fill="#ffffff" />
+        </svg>
+
+        <!-- Hành tinh tối với vành đai phát sáng hồng -->
+        <div class="galaxy-planet-ring">
+          <div class="planet-sphere"></div>
+          <div class="planet-ring-tilt"></div>
+        </div>
+
+        <!-- Không gian các ảnh và lời nhắn bay trong 3D -->
+        <div id="galaxy-floating-container" class="galaxy-floating-container"></div>
+      </div>
+
+      <button id="scene-4-btn" class="btn-romantic galaxy-next-btn">
+        <span>Em là cả thế giới của anh 🌍❤️</span>
+      </button>
+    </section>
+
+    <!-- ===================================================================
+         PHÂN CẢNH 5: THẾ GIỚI CỦA ANH LÀ EM - QUẢ CẦU ẢNH TRÁI ĐẤT 3D NGUYÊN KHỐI
+         =================================================================== -->
+    <section id="scene-5" class="scene">
+      <div class="sphere-tip">✨ Chạm hoặc kéo để xoay thế giới của chúng mình ✨</div>
+      <div class="sphere-stage">
+        <div class="sphere-backdrop-glow"></div>
+        <!-- Quả cầu ảnh 3D ghép các ảnh của tvy chuẩn theo ảnh media_1792508276899_db88ab1d.png -->
+        <div id="photo-sphere" class="photo-sphere">
+          <div class="earth-core-ball" id="earth-core-ball"></div>
+          <div id="photo-sphere-tiles" class="photo-sphere-tiles"></div>
+        </div>
+      </div>
+      <!-- Dòng chữ tâm tình chuẩn theo ảnh -->
+      <div class="sphere-caption">“ Kề bên anh nơi này có anh ”</div>
+      <button id="scene-5-btn" class="btn-romantic sphere-next-btn">
+        <span>Mở bức tường ảnh 💫</span>
+      </button>
+    </section>
+
+    <!-- ===================================================================
+         PHÂN CẢNH 6: BỨC TƯỜNG ẢNH VÀ TÁCH HÌNH
+         =================================================================== -->
+    <section id="scene-6" class="scene">
+      <div id="photo-wall-grid" class="photo-wall-grid"></div>
+      <button id="scene-6-btn" class="btn-romantic wall-next-btn">
+        <span>Nhận phong thư tình yêu 💌</span>
+      </button>
+    </section>
+
+    <!-- ===================================================================
+         PHÂN CẢNH 7: PHONG THƯ TÌNH YÊU
+         =================================================================== -->
+    <section id="scene-7" class="scene">
+      <div id="envelope-wrapper" class="envelope-wrapper" title="Nhấn để mở phong thư">
+        <div class="envelope">
+          <div class="envelope-flap"></div>
+          <div class="envelope-pocket"></div>
+          <div class="envelope-seal">❤️</div>
+        </div>
+      </div>
+
+      <!-- 3 khung ảnh nhỏ bên dưới phong thư theo đúng video -->
+      <div id="envelope-sub-photos" class="envelope-sub-photos"></div>
+
+      <p class="envelope-caption">Anh có vài lời muốn nói với em…</p>
+
+      <button id="scene-7-btn" class="btn-romantic">
+        <span>Mở thư nhé, em ❤️</span>
+      </button>
+    </section>
+
+    <!-- ===================================================================
+         PHÂN CẢNH 8: LÁ THƯ TÌNH CHÂN THÀNH DÀNH CHO TVY
+         =================================================================== -->
+    <section id="scene-8" class="scene">
+      <div class="letter-wrapper">
+        <div class="letter-header">
+          <h2 class="letter-title">Gửi em !</h2>
+          <span class="letter-sticker">💌</span>
+        </div>
+
+        <div id="letter-body" class="letter-body"></div>
+
+        <div class="letter-footer">
+          <div class="letter-sign">Người luôn thương em ❤️</div>
+        </div>
+
+        <div class="letter-actions">
+          <button id="btn-reread-letter" class="btn-romantic" style="padding: 10px 22px; font-size: 14px;">
+            <span>💌 Đọc lại thư</span>
+          </button>
+          <button id="btn-to-heart" class="btn-romantic" style="padding: 10px 22px; font-size: 14px;">
+            <span>💖 Trái tim tình yêu</span>
+          </button>
+          <button id="btn-replay-from-letter" class="btn-romantic" style="padding: 10px 22px; font-size: 14px;">
+            <span>🔄 Xem lại từ đầu</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         PHÂN CẢNH 9: TRÁI TIM KẾT THÚC VÀ TÊN TVY
+         =================================================================== -->
+    <section id="scene-9" class="scene">
+      <div class="final-heart-wrap">
+        <svg class="final-heart-svg" viewBox="0 0 100 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M50 82C50 82 10 52 10 26C10 12 21 2 33 2C42 2 48 8 50 12C52 8 58 2 67 2C79 2 90 12 90 26C90 52 50 82 50 82Z" fill="url(#finalHeartGrad)" stroke="rgba(255, 179, 198, 0.8)" stroke-width="2" />
+          <defs>
+            <linearGradient id="finalHeartGrad" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#ff758f" />
+              <stop offset="0.6" stop-color="#ff4d6d" />
+              <stop offset="1" stop-color="#c9184a" />
+            </linearGradient>
+          </defs>
+        </svg>
+        <span class="final-heart-name">tvy</span>
+      </div>
+
+      <p class="final-message">Chúc em một ngày 20/10 thật hạnh phúc. Anh thương em ❤️</p>
+
+      <div class="final-actions">
+        <button id="final-btn-read" class="btn-romantic">
+          <span>💌 Đọc lại thư</span>
+        </button>
+        <button id="final-btn-replay" class="btn-romantic">
+          <span>🔄 Quay lại từ đầu</span>
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Các tệp mã nguồn JavaScript thuần -->
+  <script src="js/settings.js"></script>
+  <script src="js/effects.js"></script>
+  <script src="js/photos.js"></script>
+  <script src="js/scenes.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,1367 @@
+/* ==========================================================================
+   STYLE.CSS - THIẾT KẾ GIAO DIỆN CHÍNH DÀNH RIÊNG CHO TVY (20/10)
+   ========================================================================== */
+
+:root {
+  --bg-deep-space: #07030e;
+  --bg-space-dark: #0e071c;
+  --bg-space-mid: #1d0f36;
+  --accent-purple: #9d4edd;
+  --accent-purple-light: #c77dff;
+  --accent-pink: #ff758f;
+  --accent-pink-soft: #ffb3c6;
+  --accent-pink-pale: #ffe5ec;
+  --accent-gold: #f6d365;
+  --accent-gold-border: #fda085;
+  --card-bg: rgba(22, 11, 40, 0.85);
+  --paper-cream: #fff8f9;
+  --paper-border: #f8c1cc;
+  --text-white: #ffffff;
+  --text-dim: #dfd7ee;
+  --text-romantic: #b5179e;
+  --font-cursive: 'Caveat', 'Dancing Script', 'Segoe Script', cursive, sans-serif;
+  --font-serif: 'Playfair Display', 'Georgia', serif;
+  --font-sans: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg-deep-space);
+  color: var(--text-white);
+  font-family: var(--font-sans);
+}
+
+/* ==========================================================================
+   CANVAS NỀN VŨ TRỤ
+   ========================================================================== */
+#galaxy-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   BỘ ĐIỀU KHIỂN ÂM THANH
+   ========================================================================== */
+.audio-control {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(255, 117, 143, 0.2);
+  border: 1px solid rgba(255, 179, 198, 0.5);
+  border-radius: 30px;
+  backdrop-filter: blur(10px);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 117, 143, 0.25);
+}
+
+.audio-control:hover {
+  background: rgba(255, 117, 143, 0.35);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 117, 143, 0.45);
+}
+
+.audio-icon {
+  font-size: 16px;
+  display: inline-block;
+}
+
+.audio-icon.playing {
+  animation: audioPulse 1.2s infinite ease-in-out;
+}
+
+/* ==========================================================================
+   CONTAINER CÁC PHÂN CẢNH
+   ========================================================================== */
+#app-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  overflow: hidden;
+}
+
+.scene {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), visibility 1.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
+}
+
+.scene.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* ==========================================================================
+   NÚT BẤM CHUNG (ROMANTIC PINK BUTTON)
+   ========================================================================== */
+.btn-romantic {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 34px;
+  background: linear-gradient(135deg, #ff758f 0%, #ff4d6d 50%, #c9184a 100%);
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 8px 25px rgba(255, 77, 109, 0.45), 0 0 15px rgba(255, 117, 143, 0.3);
+  transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+  overflow: hidden;
+  z-index: 20;
+}
+
+.btn-romantic::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 10%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  transform: rotate(30deg);
+}
+
+.btn-romantic:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 12px 30px rgba(255, 77, 109, 0.65), 0 0 25px rgba(255, 179, 198, 0.5);
+}
+
+.btn-romantic:hover::before {
+  opacity: 1;
+}
+
+.btn-romantic:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+/* ==========================================================================
+   PHÂN CẢNH 1: MÁY QUÉT DẤU VÂN TAY “MỞ KHÓA TRÁI TIM” (CONCEPT 2)
+   ========================================================================== */
+.scanner-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.scanner-header {
+  margin-bottom: 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+}
+
+.scanner-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 117, 143, 0.18);
+  border: 1px solid rgba(255, 179, 198, 0.45);
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  color: #ffb3c6;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 15px rgba(255, 117, 143, 0.3);
+}
+
+.scanner-title {
+  font-size: 26px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #ffffff 0%, #ffb3c6 50%, #ff758f 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 20px rgba(255, 117, 143, 0.4);
+}
+
+.scanner-subtitle {
+  font-size: 13.5px;
+  color: rgba(255, 255, 255, 0.7);
+  font-style: italic;
+}
+
+/* Khung máy quét hình trái tim vân tay */
+.scanner-heart-container {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.scanner-heart-container:active,
+.scanner-heart-container.scanning {
+  transform: scale(1.05);
+}
+
+/* Hào quang thở nhịp tim */
+.scanner-glow-ring {
+  position: absolute;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 77, 109, 0.35) 0%, rgba(199, 125, 255, 0.15) 50%, transparent 75%);
+  filter: blur(20px);
+  animation: glowPulse 2.4s ease-in-out infinite;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.scanner-heart-container.scanning .scanner-glow-ring {
+  background: radial-gradient(circle, rgba(255, 77, 109, 0.65) 0%, rgba(255, 117, 143, 0.4) 50%, transparent 80%);
+  filter: blur(25px);
+  animation: glowPulseFast 0.8s ease-in-out infinite;
+}
+
+/* Vòng tiến trình SVG */
+.scanner-progress-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+  filter: drop-shadow(0 0 8px rgba(255, 117, 143, 0.6));
+}
+
+.scanner-track {
+  stroke: rgba(255, 117, 143, 0.25);
+  stroke-width: 4.5;
+  fill: rgba(30, 10, 40, 0.55);
+  backdrop-filter: blur(10px);
+}
+
+.scanner-progress {
+  stroke: #ff4d6d;
+  stroke-width: 5.5;
+  stroke-linecap: round;
+  fill: none;
+  transition: stroke-dashoffset 0.06s linear;
+  filter: drop-shadow(0 0 12px #ff4d6d) drop-shadow(0 0 4px #fff);
+}
+
+/* Dấu vân tay SVG */
+.fingerprint-wrapper {
+  position: relative;
+  width: 125px;
+  height: 125px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.fingerprint-svg {
+  width: 100%;
+  height: 100%;
+  stroke: rgba(255, 179, 198, 0.7);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  transition: stroke 0.3s, filter 0.3s;
+  animation: heartThrob 2.4s ease-in-out infinite;
+}
+
+.scanner-heart-container.scanning .fingerprint-svg {
+  stroke: #ffffff;
+  filter: drop-shadow(0 0 10px #ff758f) drop-shadow(0 0 20px #ff4d6d);
+  animation: heartThrobFast 0.8s ease-in-out infinite;
+}
+
+.fp-core {
+  fill: #ff758f;
+}
+
+/* Tia laser quét lên xuống */
+.scanner-beam {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent 0%, #ff758f 20%, #ffffff 50%, #ff758f 80%, transparent 100%);
+  box-shadow: 0 0 15px #ff4d6d, 0 0 25px rgba(255, 255, 255, 0.9);
+  top: 10%;
+  opacity: 0.65;
+  animation: laserSweep 2.2s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+.scanner-heart-container.scanning .scanner-beam {
+  height: 4.5px;
+  opacity: 1;
+  box-shadow: 0 0 20px #ff0055, 0 0 35px #ffffff;
+  animation: laserSweep 0.75s ease-in-out infinite alternate;
+}
+
+/* Sóng gợn nhịp tim */
+.scanner-ripples {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.ripple-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 2px solid rgba(255, 117, 143, 0.85);
+  border-radius: 50%;
+  animation: rippleOut 1.2s ease-out forwards;
+}
+
+/* Thông số nhịp tim ECG & % */
+.scanner-metrics {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.ecg-line-box {
+  width: 120px;
+  height: 24px;
+  overflow: hidden;
+}
+
+.ecg-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.ecg-path {
+  fill: none;
+  stroke: #ff758f;
+  stroke-width: 2;
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  animation: ecgFlow 2s linear infinite;
+  filter: drop-shadow(0 0 6px #ff758f);
+}
+
+.scanner-percent {
+  font-family: 'Courier New', monospace;
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffb3c6;
+  text-shadow: 0 0 10px rgba(255, 117, 143, 0.8);
+  min-width: 48px;
+}
+
+/* Dòng trạng thái */
+.scanner-status {
+  margin-top: 14px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #ffffff;
+  text-shadow: 0 0 12px rgba(255, 143, 171, 0.8);
+  transition: all 0.3s ease;
+  min-height: 24px;
+}
+
+.scanner-subtext {
+  margin-top: 6px;
+  font-size: 13px;
+  color: rgba(255, 215, 235, 0.65);
+  animation: floatSlow 3s ease-in-out infinite;
+}
+
+/* Màn mở khóa thành công */
+.unlock-celebration {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(12, 4, 22, 0.94);
+  backdrop-filter: blur(15px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.8s;
+}
+
+.unlock-celebration.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.unlock-card {
+  position: relative;
+  background: rgba(30, 10, 42, 0.88);
+  border: 1.5px solid rgba(255, 179, 198, 0.5);
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.7), 0 0 35px rgba(255, 117, 143, 0.4);
+  border-radius: 24px;
+  padding: 30px 24px;
+  max-width: 420px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transform: translateY(30px) scale(0.9);
+  transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+  overflow: hidden;
+}
+
+.unlock-celebration.active .unlock-card {
+  transform: translateY(0) scale(1);
+}
+
+.unlock-icon {
+  font-size: 40px;
+  animation: heartThrob 1.2s infinite ease-in-out;
+  margin-bottom: 5px;
+}
+
+.unlock-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, rgba(255, 77, 109, 0.4), rgba(199, 125, 255, 0.4));
+  border: 1px solid rgba(255, 179, 198, 0.6);
+  color: #ffb3c6;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  padding: 4px 16px;
+  border-radius: 20px;
+  margin-bottom: 12px;
+}
+
+.unlock-name {
+  font-size: 26px;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 0 15px rgba(255, 117, 143, 0.9);
+  margin-bottom: 10px;
+}
+
+.unlock-msg {
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 18px;
+}
+
+.unlock-bouquet-wrap {
+  width: 175px;
+  height: 175px;
+  margin-bottom: 20px;
+  filter: drop-shadow(0 8px 25px rgba(255, 117, 143, 0.6));
+  animation: floatSlow 4s ease-in-out infinite;
+}
+
+.unlock-bouquet-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.unlock-next-btn {
+  margin-top: 5px;
+}
+
+/* Phần tử hạt tim bay lơ lửng */
+.celebration-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.celebration-heart {
+  position: absolute;
+  color: #ff4d6d;
+  font-size: 20px;
+  animation: floatParticle 2.5s ease-out forwards;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   PHÂN CẢNH 3: THIỆP CHÚC MỪNG 20/10 CHO NGƯỜI YÊU
+   ========================================================================== */
+#scene-3 {
+  perspective: 1200px;
+}
+
+.greeting-card {
+  position: relative;
+  width: min(880px, 92vw);
+  background: linear-gradient(135deg, rgba(28, 12, 48, 0.94) 0%, rgba(45, 16, 68, 0.92) 100%);
+  border: 2px solid var(--accent-gold);
+  border-radius: 20px;
+  padding: 30px 40px;
+  box-shadow: 0 0 45px rgba(246, 211, 101, 0.35), inset 0 0 30px rgba(255, 143, 171, 0.2);
+  display: flex;
+  flex-direction: column;
+  backdrop-filter: blur(15px);
+  transform: scale(0.92) translateY(20px);
+  opacity: 0;
+  transition: all 1.2s cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+
+.scene.active .greeting-card {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+}
+
+/* Dòng đầu thiệp: Anh ♥ Em */
+.card-header-badge {
+  font-family: var(--font-cursive);
+  font-size: 38px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+}
+
+.card-header-badge .heart-beat {
+  color: #ff4d6d;
+  font-size: 32px;
+  display: inline-block;
+  animation: heartBeat 1.4s ease-in-out infinite;
+}
+
+/* Bố cục 2 cột trong thiệp */
+.card-body-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 30px;
+  align-items: center;
+}
+
+/* Cột trái: Trái tim ghép từ ảnh (Puzzle Heart) */
+.heart-puzzle-container {
+  position: relative;
+  width: 280px;
+  height: 280px;
+  margin: 0 auto;
+}
+
+.heart-puzzle-grid {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.puzzle-piece {
+  position: absolute;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: all 1s cubic-bezier(0.2, 0.8, 0.3, 1);
+  transform-origin: center center;
+}
+
+.puzzle-piece img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Cột phải: Lời chúc + Lịch tháng 10/2026 */
+.card-info-col {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.card-title-main {
+  font-family: var(--font-cursive);
+  font-size: 36px;
+  color: var(--accent-pink-soft);
+  margin-bottom: 6px;
+  text-shadow: 0 0 12px rgba(255, 117, 143, 0.6);
+}
+
+.card-month-title {
+  font-family: var(--font-cursive);
+  font-size: 22px;
+  color: var(--accent-gold);
+  margin-bottom: 12px;
+}
+
+/* Bảng lịch tháng 10/2026 */
+.calendar-mini {
+  width: 100%;
+  max-width: 320px;
+  background: rgba(10, 4, 20, 0.55);
+  border: 1px solid rgba(246, 211, 101, 0.3);
+  border-radius: 12px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+}
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  text-align: center;
+}
+
+.cal-day-header {
+  font-size: 11px;
+  color: var(--accent-gold);
+  font-weight: 600;
+  padding-bottom: 4px;
+}
+
+.cal-cell {
+  font-size: 12px;
+  padding: 3px 0;
+  color: #dfd7ee;
+  border-radius: 4px;
+}
+
+.cal-cell.empty {
+  opacity: 0;
+}
+
+.cal-cell.highlight-20 {
+  background: linear-gradient(135deg, #ff4d6d, #c9184a);
+  color: #ffffff;
+  font-weight: bold;
+  border-radius: 50%;
+  box-shadow: 0 0 12px #ff4d6d;
+  animation: pulseDay 1.6s infinite;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-wish-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #f1e9fb;
+  margin-bottom: 14px;
+}
+
+/* Hàng hoa daisy trang trí dưới đáy thiệp */
+.card-bottom-flora {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  height: 40px;
+  margin-top: 15px;
+  border-top: 1px dashed rgba(246, 211, 101, 0.3);
+  padding-top: 8px;
+}
+
+.flora-item {
+  width: 24px;
+  height: 24px;
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.5));
+}
+
+#scene-3 .card-next-btn {
+  margin-top: 25px;
+}
+
+/* ==========================================================================
+   PHÂN CẢNH 4: VŨ TRỤ TÌNH YÊU VỚI NHỮNG HÌNH ẢNH BAY (DI CHUYỂN ĐƯỢC ĐỂ XEM)
+   ========================================================================== */
+#scene-4 {
+  perspective: 1200px;
+  overflow: hidden;
+  cursor: grab;
+}
+
+#scene-4:active {
+  cursor: grabbing;
+}
+
+.galaxy-guide-badge {
+  position: absolute;
+  top: 25px;
+  background: rgba(22, 10, 38, 0.75);
+  border: 1px solid rgba(255, 179, 198, 0.5);
+  border-radius: 30px;
+  padding: 8px 18px;
+  font-size: 14px;
+  color: var(--accent-pink-soft);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), 0 0 15px rgba(255, 143, 171, 0.3);
+  z-index: 30;
+  pointer-events: none;
+  animation: floatSlow 4s ease-in-out infinite;
+}
+
+/* Không gian 3D của cả ngân hà di chuyển mượt mà khi người dùng kéo */
+.galaxy-world {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.1s linear;
+  will-change: transform;
+}
+
+/* Cụm tinh vân hoa xoắn ở trung tâm phía trên */
+.galaxy-nebula-flower {
+  position: absolute;
+  top: 12%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 240px;
+  height: 240px;
+  pointer-events: none;
+  filter: drop-shadow(0 0 40px rgba(199, 125, 255, 0.9));
+  animation: nebulaSpin 35s linear infinite;
+  z-index: 2;
+}
+
+/* Hành tinh tối có vòng sáng hồng */
+.galaxy-planet-ring {
+  position: absolute;
+  top: 52%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 140px;
+  height: 140px;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.planet-sphere {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #2a1140 0%, #0d0418 80%, #000000 100%);
+  box-shadow: 0 0 35px rgba(255, 117, 143, 0.5);
+}
+
+.planet-ring-tilt {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotateX(72deg) rotateY(18deg);
+  width: 210px;
+  height: 210px;
+  border-radius: 50%;
+  border: 4px solid rgba(255, 117, 143, 0.85);
+  box-shadow: 0 0 20px rgba(255, 143, 171, 0.9), inset 0 0 15px rgba(255, 117, 143, 0.7);
+  animation: ringGlow 4s ease-in-out infinite;
+}
+
+/* Container chứa các ảnh và lời nhắn bay trong 3D */
+.galaxy-floating-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  pointer-events: auto;
+  z-index: 5;
+}
+
+.floating-photo-card {
+  position: absolute;
+  border-radius: 8px;
+  padding: 4px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 143, 171, 0.4);
+  backdrop-filter: blur(5px);
+  overflow: hidden;
+  transition: transform 0.4s ease, border-color 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+
+.floating-photo-card:hover {
+  border-color: #ff758f;
+  box-shadow: 0 8px 25px rgba(255, 117, 143, 0.8), 0 0 25px rgba(255, 255, 255, 0.6);
+  z-index: 50;
+}
+
+.floating-photo-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 5px;
+  display: block;
+}
+
+.floating-ribbon-msg {
+  position: absolute;
+  background: rgba(25, 8, 42, 0.88);
+  border: 1px solid rgba(255, 179, 198, 0.65);
+  color: #fff;
+  padding: 7px 16px;
+  border-radius: 20px;
+  font-family: var(--font-cursive);
+  font-size: 17px;
+  white-space: nowrap;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 117, 143, 0.4);
+  backdrop-filter: blur(8px);
+  transition: transform 0.3s ease;
+}
+
+.floating-ribbon-msg:hover {
+  transform: scale(1.08);
+  background: rgba(45, 15, 75, 0.95);
+  border-color: #ff758f;
+}
+
+#scene-4 .galaxy-next-btn {
+  position: absolute;
+  bottom: 40px;
+  z-index: 25;
+}
+
+/* ==========================================================================
+   PHÂN CẢNH 5: THẾ GIỚI CỦA ANH LÀ EM - QUẢ CẦU ẢNH TRÁI ĐẤT 3D NGUYÊN KHỐI
+   ========================================================================== */
+#scene-5 {
+  perspective: 1200px;
+  overflow: hidden;
+  cursor: grab;
+}
+
+#scene-5:active {
+  cursor: grabbing;
+}
+
+.sphere-stage {
+  position: relative;
+  width: 440px;
+  height: 440px;
+  transform-style: preserve-3d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Quả cầu Trái Đất 3D tròn nguyên khối ghép kín các ảnh của tvy */
+.photo-sphere {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.1s linear;
+}
+
+/* Lõi cầu tối vũ trụ tạo chiều sâu 3D bên trong */
+.earth-core-ball {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 350px;
+  height: 350px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 45% 40%, #1c0a32 0%, #0f031e 65%, #05010a 100%);
+  box-shadow: 
+    inset -30px -30px 60px rgba(0, 0, 0, 0.95),
+    inset 15px 15px 30px rgba(168, 85, 247, 0.2),
+    0 0 45px rgba(147, 51, 234, 0.35);
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Container chứa toàn bộ mảnh ghép ảnh */
+.photo-sphere-tiles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+/* Từng mảnh ghép ảnh kỷ niệm trên quả cầu chuẩn theo media_1792508276899_db88ab1d.png */
+.sphere-item {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 2px;
+  overflow: hidden;
+  border: 0.8px solid rgba(255, 255, 255, 0.55);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transition: border-color 0.3s;
+  pointer-events: auto;
+  z-index: 2;
+}
+
+.sphere-item:hover {
+  border-color: #ff758f;
+  box-shadow: 0 0 15px #ff758f;
+  z-index: 50;
+}
+
+.sphere-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Quầng tinh vân tím phát sáng phía sau quả cầu chuẩn screenshot */
+.sphere-backdrop-glow {
+  position: absolute;
+  width: 440px;
+  height: 440px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(147, 51, 234, 0.45) 0%, rgba(91, 33, 182, 0.22) 50%, transparent 75%);
+  filter: blur(45px);
+  pointer-events: none;
+}
+
+.sphere-tip {
+  position: absolute;
+  top: 25px;
+  font-size: 14px;
+  color: var(--accent-pink-soft);
+  text-shadow: 0 0 10px rgba(255, 117, 143, 0.8);
+  pointer-events: none;
+  background: rgba(22, 10, 38, 0.75);
+  padding: 8px 18px;
+  border-radius: 30px;
+  border: 1px solid rgba(255, 179, 198, 0.4);
+  backdrop-filter: blur(10px);
+  animation: floatSlow 4s ease-in-out infinite;
+  z-index: 30;
+}
+
+/* Dòng chữ tâm tình chuẩn xác theo screenshot media_1792508276899_db88ab1d.png */
+.sphere-caption {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-size: 28px;
+  color: #ffffff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9), 0 0 25px rgba(255, 179, 198, 0.6);
+  margin-top: 18px;
+  margin-bottom: 22px;
+  pointer-events: none;
+  animation: floatSlow 5s ease-in-out infinite;
+}
+
+#scene-5 .sphere-next-btn {
+  position: relative;
+  z-index: 25;
+}
+
+/* ==========================================================================
+   PHÂN CẢNH 6: BỨC TƯỜNG HÌNH ẢNH (PHOTO WALL & DISPERSAL)
+   ========================================================================== */
+#scene-6 {
+  perspective: 1000px;
+  overflow: hidden;
+}
+
+.photo-wall-grid {
+  position: relative;
+  width: 95vw;
+  max-width: 1000px;
+  height: 75vh;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 12px;
+  padding: 15px;
+  transform-style: preserve-3d;
+  transition: all 1.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.wall-tile {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  aspect-ratio: 1;
+  transition: all 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.wall-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Trạng thái các ảnh tách ra và bay vào không gian */
+.photo-wall-grid.dispersed .wall-tile {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#scene-6 .wall-next-btn {
+  position: absolute;
+  bottom: 40px;
+  z-index: 20;
+}
+
+/* ==========================================================================
+   PHÂN CẢNH 7: PHONG THƯ TÌNH YÊU
+   ========================================================================== */
+#scene-7 {
+  perspective: 1000px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.envelope-wrapper {
+  position: relative;
+  width: 320px;
+  height: 220px;
+  margin-bottom: 25px;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease;
+}
+
+.envelope-wrapper:hover {
+  transform: translateY(-5px) scale(1.03);
+}
+
+.envelope {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #ffb3c6;
+  border-radius: 12px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 25px rgba(255, 143, 171, 0.4);
+  transform-style: preserve-3d;
+}
+
+/* Nắp trên phong thư (Flap) */
+.envelope-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 160px solid transparent;
+  border-right: 160px solid transparent;
+  border-top: 125px solid #ff8fab;
+  transform-origin: top center;
+  transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 5;
+  filter: drop-shadow(0 2px 5px rgba(0,0,0,0.2));
+}
+
+.envelope.open .envelope-flap {
+  transform: rotateX(180deg);
+  z-index: 1;
+}
+
+/* Thân phong thư trước (Túi) */
+.envelope-pocket {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 160px solid #ff758f;
+  border-right: 160px solid #ff758f;
+  border-bottom: 120px solid #ff4d6d;
+  border-top: 100px solid transparent;
+  border-radius: 0 0 12px 12px;
+  z-index: 4;
+  pointer-events: none;
+}
+
+/* Con dấu niêm phong hình trái tim */
+.envelope-seal {
+  position: absolute;
+  top: 75px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 44px;
+  height: 44px;
+  background: #c9184a;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3), 0 0 15px rgba(255, 77, 109, 0.8);
+  z-index: 6;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.envelope.open .envelope-seal {
+  opacity: 0;
+  transform: translateX(-50%) scale(0.5);
+}
+
+/* Các khung ảnh nhỏ nằm bên dưới phong thư (theo đúng video) */
+.envelope-sub-photos {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 15px;
+  margin-bottom: 25px;
+}
+
+.sub-photo-item {
+  width: 90px;
+  height: 90px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+}
+
+.sub-photo-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+#scene-7 .envelope-caption {
+  font-family: var(--font-cursive);
+  font-size: 24px;
+  color: var(--accent-pink-soft);
+  margin-bottom: 20px;
+}
+
+/* ==========================================================================
+   PHÂN CẢNH 8: LÁ THƯ TÌNH CHÂN THÀNH DÀNH RIÊNG CHO TVY
+   ========================================================================== */
+#scene-8 {
+  perspective: 1000px;
+  overflow-y: auto;
+  padding: 40px 20px;
+}
+
+.letter-wrapper {
+  position: relative;
+  width: min(640px, 94vw);
+  background: var(--paper-cream);
+  border: 1px solid var(--paper-border);
+  border-radius: 16px;
+  padding: 35px 30px;
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.4), 0 0 30px rgba(255, 179, 198, 0.35);
+  color: #332233;
+  text-align: left;
+  transform: translateY(40px) scale(0.96);
+  opacity: 0;
+  transition: all 1.2s cubic-bezier(0.2, 0.8, 0.3, 1);
+  margin: auto;
+}
+
+.scene.active .letter-wrapper {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+/* Lớp giấy xếp lệch phía sau */
+.letter-wrapper::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 6px;
+  right: -6px;
+  bottom: 8px;
+  background: rgba(255, 240, 243, 0.8);
+  border: 1px solid rgba(255, 179, 198, 0.4);
+  border-radius: 16px;
+  z-index: -1;
+  transform: rotate(-1.5deg);
+}
+
+.letter-header {
+  border-bottom: 1.5px dashed var(--accent-pink-soft);
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.letter-title {
+  font-family: var(--font-cursive);
+  font-size: 34px;
+  color: #c9184a;
+  font-weight: 700;
+}
+
+.letter-sticker {
+  font-size: 26px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+.letter-body {
+  font-family: var(--font-sans);
+  font-size: 15.5px;
+  line-height: 1.8;
+  color: #4a344d;
+}
+
+.letter-body p {
+  margin-bottom: 14px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.6s ease;
+}
+
+.letter-body p.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.letter-footer {
+  margin-top: 25px;
+  text-align: right;
+  border-top: 1.5px dashed var(--accent-pink-soft);
+  padding-top: 15px;
+}
+
+.letter-sign {
+  font-family: var(--font-cursive);
+  font-size: 28px;
+  color: #c9184a;
+  font-weight: 600;
+}
+
+.letter-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+/* ==========================================================================
+   PHÂN CẢNH 9: TRÁI TIM KẾT THÚC VÀ TÊN TVY
+   ========================================================================== */
+#scene-9 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.final-heart-wrap {
+  position: relative;
+  width: 220px;
+  height: 200px;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.final-heart-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 35px rgba(255, 77, 109, 0.85));
+  animation: heartThrob 1.8s ease-in-out infinite;
+}
+
+.final-heart-name {
+  position: absolute;
+  top: 48%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-cursive);
+  font-size: 42px;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 0 0 15px rgba(0, 0, 0, 0.6), 0 0 25px rgba(255, 255, 255, 0.8);
+  letter-spacing: 1px;
+}
+
+.final-message {
+  font-family: var(--font-cursive);
+  font-size: 28px;
+  color: var(--accent-pink-soft);
+  max-width: 650px;
+  margin-bottom: 35px;
+  line-height: 1.4;
+  text-shadow: 0 0 15px rgba(255, 117, 143, 0.7);
+}
+
+.final-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
