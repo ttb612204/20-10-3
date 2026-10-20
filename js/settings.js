@@ -16,16 +16,18 @@ const CONFIG = {
     volume: 0.75,
   },
 
-  // Danh sách hình ảnh cá nhân của tvy (lưu trữ trực tuyến tốc độ cao, không cần đẩy ảnh lên GitHub)
-  photos: [
-    "https://files.catbox.moe/d4s3ip.jpg",
-    "https://files.catbox.moe/8o5iry.jpg",
-    "https://files.catbox.moe/9d3uw4.jpg",
-    "https://files.catbox.moe/55drvz.jpg",
-    "https://files.catbox.moe/diyjtx.jpg",
-    "https://files.catbox.moe/8dg0cm.jpg",
-    "https://files.catbox.moe/7jnf89.jpg",
-  ],
+  // Danh sách hình ảnh cá nhân của tvy (nhúng Base64 bảo mật, không cần đẩy file ảnh lên Git, load 100% mượt trên mọi host)
+  photos: (typeof window !== 'undefined' && window.BASE64_PHOTOS && window.BASE64_PHOTOS.length > 0)
+    ? window.BASE64_PHOTOS
+    : [
+        "assets/images/photo1.jpg",
+        "assets/images/photo2.jpg",
+        "assets/images/photo3.jpg",
+        "assets/images/photo4.jpg",
+        "assets/images/photo5.jpg",
+        "assets/images/photo6.jpg",
+        "assets/images/photo7.jpg",
+      ],
 
   // Phân cảnh 1: Máy quét vân tay "Mở khóa trái tim"
   scene1: {

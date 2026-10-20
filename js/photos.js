@@ -89,6 +89,7 @@ class PhotoManager {
       img.src = this.getPhoto(idx);
       img.alt = `tvy kỷ niệm ${idx + 1}`;
       img.loading = 'lazy';
+      img.onerror = () => { img.src = this.getPhoto(0); };
 
       div.appendChild(img);
       container.appendChild(div);
@@ -151,6 +152,7 @@ class PhotoManager {
         const img = document.createElement('img');
         img.src = this.getPhoto(photoIdx++);
         img.alt = 'Kỷ niệm tvy';
+        img.onerror = () => { img.src = this.getPhoto(0); };
         item.appendChild(img);
 
         tilesContainer.appendChild(item);

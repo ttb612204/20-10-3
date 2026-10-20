@@ -426,6 +426,7 @@ class SceneManager {
       const img = document.createElement('img');
       img.src = this.photoManager.getPhoto(i);
       img.alt = 'Kỷ niệm tvy';
+      img.onerror = () => { img.src = this.photoManager.getPhoto(0); };
       card.appendChild(img);
 
       // Nhấp vào ảnh để phóng to xem rõ nét hơn
@@ -677,6 +678,7 @@ class SceneManager {
       const img = document.createElement('img');
       img.src = this.photoManager.getPhoto(i);
       img.alt = `Tường kỷ niệm ${i + 1}`;
+      img.onerror = () => { img.src = this.photoManager.getPhoto(0); };
       tile.appendChild(img);
 
       grid.appendChild(tile);
@@ -722,6 +724,7 @@ class SceneManager {
         const img = document.createElement('img');
         img.src = this.photoManager.getPhoto(i + 1);
         img.alt = 'tvy';
+        img.onerror = () => { img.src = this.photoManager.getPhoto(0); };
         item.appendChild(img);
         subContainer.appendChild(item);
       }
